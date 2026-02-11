@@ -1,57 +1,57 @@
 # Lucid RPC (Iterating)
 
-这个仓库实现了一个**正在持续迭代的 Python RPC**，当前以简单、可读、可验证为核心，便于快速扩展与实验。
+This repository contains a **continuously iterating Python RPC** implementation, with a current focus on simplicity, readability, and verifiability so it can evolve quickly.
 
-当前实现基础：
+Current protocol/building blocks:
 
 - TCP sockets
-- JSON 消息
-- 4-byte length prefix 消息分帧
+- JSON messages
+- 4-byte length-prefix framing
 
-## 项目结构
+## Project Structure
 
-- `rpc.py`：RPC client/server 核心实现
-- `examples/server.py`：示例服务端（含 `add`、`divide`）
-- `examples/client.py`：示例客户端调用
+- `rpc.py`: Core RPC client/server implementation
+- `examples/server.py`: Example server (`add`, `divide`)
+- `examples/client.py`: Example client calls
 
-## 快速运行
+## Quick Start
 
-启动服务端：
+Start the server:
 
 ```bash
 python3 -m examples.server
 ```
 
-另开一个终端运行客户端：
+In another terminal, run the client:
 
 ```bash
 python3 -m examples.client
 ```
 
-你会看到 `add`、`divide` 的正常结果，以及 `divide(10, 0)` 的错误返回。
+You should see successful results for `add` and `divide`, and an error response for `divide(10, 0)`.
 
-## Roadmap（迭代摘要）
+## Roadmap (Iteration Summary)
 
-按优先级从近到远：
+Prioritized from near-term to longer-term:
 
-1. **请求/响应标准化**
-   - 引入 `request_id`、统一 `ok/result/error` 结构、标准 `meta`
-   - 支持单连接多请求并发（multiplexing）
-2. **可靠性增强**
-   - timeout + retry（指数退避）
-   - 结合幂等信息控制重试策略
-3. **协议治理**
-   - 参数与协议校验
-   - 标准错误码体系（如 `BAD_REQUEST`、`TIMEOUT`、`INTERNAL`）
-4. **并发模型升级**
-   - 增加 asyncio 版本，保留现有实现作为稳定基线
-5. **可运维能力**
-   - 优雅下线（drain in-flight）
-   - 心跳与空闲连接回收
-   - 结构化日志与可观测性指标
-6. **容量与演进能力**
-   - 背压与并发限制
-   - 批量请求与压缩
-   - 协议版本化、二进制协议、IDL 代码生成
+1. **Request/Response Standardization**
+   - Introduce `request_id`, unified `ok/result/error` shape, and standard `meta`
+   - Enable multiplexing (multiple in-flight requests on one connection)
+2. **Reliability Improvements**
+   - Add timeout + retry (with exponential backoff)
+   - Use idempotency hints to control retry behavior
+3. **Protocol Governance**
+   - Add parameter/protocol validation
+   - Define standard error codes (e.g., `BAD_REQUEST`, `TIMEOUT`, `INTERNAL`)
+4. **Concurrency Model Upgrade**
+   - Add an asyncio version while keeping the current implementation as a stable baseline
+5. **Operational Capabilities**
+   - Graceful shutdown (drain in-flight requests)
+   - Heartbeat + idle connection recycling
+   - Structured logging + observability metrics
+6. **Capacity and Evolution**
+   - Backpressure and concurrency limits
+   - Batch requests and compression
+   - Protocol versioning, binary protocols, and IDL-based code generation
 
-> 目标：从“可用的最小 RPC”平滑演进到“可治理、可扩展、可观测”的工程化 RPC。
+> Goal: evolve smoothly from a minimal usable RPC into an RPC that is governable, extensible, and observable.
