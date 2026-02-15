@@ -1,6 +1,6 @@
 """Example RPC client."""
 
-from rpc import RPCClient
+from rpc import RPCClient, RPCClientError
 
 
 if __name__ == "__main__":
@@ -11,5 +11,5 @@ if __name__ == "__main__":
         # This will raise an error from the server side
         try:
             client.call("divide", [10, 0])
-        except RuntimeError as exc:
-            print("divide(10, 0) error:", exc)
+        except RPCClientError as exc:
+            print("divide(10, 0) error:", exc.error.code, exc.error.message)
