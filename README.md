@@ -10,25 +10,28 @@ The goal is readability and clarity, not production-grade features.
 
 ## Files
 
-- `rpc.py`: The core RPC client/server with detailed comments.
-- `examples/server.py`: Example server with two methods.
-- `examples/client.py`: Example client that calls the server.
+- `protocol.py`: Framing (`send_message`/`recv_message`) and schema types.
+- `server.py`: Server CLI entry (`--mode threaded|asyncio`).
+- `runtimes/threaded.py`: Threaded server implementation.
+- `runtimes/asyncio.py`: Async server placeholder for issue #5.
+- `client.py`: RPC client implementation.
+- `bench/client.py`: Simple benchmark client.
+- `bench/handlers.py`: `io`/`cpu`/`mixed` benchmark handlers.
+- `rpc.py`: Backward-compatible exports.
 
 ## Run
 
 Start the server:
 
 ```bash
-python3 -m examples.server
+python3 -m server --mode threaded
 ```
 
-In another terminal, run the client:
+In another terminal, run benchmark client:
 
 ```bash
-python3 -m examples.client
+python3 -m bench.client --method add --threads 4 --requests-per-thread 50
 ```
-
-You should see results for `add` and `divide`, and an error for `divide(10, 0)`.
 
 ## Unified RPC Contract
 
