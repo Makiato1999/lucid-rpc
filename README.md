@@ -1,14 +1,14 @@
-# Educational Python RPC
+# Lucid RPC (Iterating)
 
-This repo contains a tiny, **learning-friendly** RPC (Remote Procedure Call) implementation using:
+This repository contains a **continuously iterating Python RPC** implementation, with a current focus on simplicity, readability, and verifiability so it can evolve quickly.
+
+Current protocol/building blocks:
 
 - TCP sockets
 - JSON messages
-- A 4-byte length prefix for framing
+- 4-byte length-prefix framing
 
-The goal is readability and clarity, not production-grade features.
-
-## Files
+## Project Structure
 
 - `protocol.py`: Framing (`send_message`/`recv_message`) and schema types.
 - `server.py`: Server CLI entry (`--mode threaded|asyncio`).
@@ -19,7 +19,7 @@ The goal is readability and clarity, not production-grade features.
 - `bench/handlers.py`: `io`/`cpu`/`mixed` benchmark handlers.
 - `rpc.py`: Backward-compatible exports.
 
-## Run
+## Quick Start
 
 Start the server:
 
